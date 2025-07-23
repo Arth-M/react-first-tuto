@@ -1,3 +1,5 @@
+import { useState} from 'react';
+
 function ProductRow ({product}) {
   const name = product.stocked ? product.name :
   <span style ={{color: 'red'}}>
@@ -63,23 +65,23 @@ function ProductTable({products, filterText, inStockOnly}) {
   );
 }
 
-function SearchBar({filterText, inStockOnly}) {
+function SearchBar({filterText, inStockOnly,onFilterTextChange, onInStockOnlyChange}) {
   return (
 
     <form>
-      <input type="text" placeholder="Search..." value={filterText}/>
+      <input type="text" placeholder="Search..." value={filterText} onChange={(e) => onFilterTextChange(e.target.value)}/>
       <label>
-      <input type="checkbox" checked={inStockOnly}/>{' '}Only show products in stocked</label>
+      <input type="checkbox" checked={inStockOnly} onChange={(e) => onInStockOnlyChange(e.target.checked)}/>{' '}Only show products in stocked</label>
     </form>
   );
 }
 
 function FilterableProductTable({products}) {
   const [filterText, setFilterText] = useState('');
-  const [inStockOnly, setinStockOnly] = useState(false)
+  const [inStockOnly, setInStockOnly] = useState(false)
   return (
     <div>
-      <SearchBar filterText={filterText} inStockOnly={inStockOnly} />
+      <SearchBar filterText={filterText} inStockOnly={inStockOnly} onFilterTextChange={setFilterText} onInStockOnlyChange={setInStockOnly} />
       <ProductTable products={products} filterText={filterText} inStockOnly={inStockOnly}/>
     </div>
   );
